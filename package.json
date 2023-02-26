@@ -1,0 +1,32 @@
+{
+  "name": "mob-storage-api",
+  "version": "1.0.0",
+  "description": "Api para conexão com banco de dados postgresql do aplicativo mobStorage",
+  "main": "server.js",
+  "type": "commonjs", 
+  "scripts": {
+    "start": "nodemon src/server.js --watch src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "mob-storage"
+  },
+  "keywords": [
+    "estoque",
+    "produtos",
+    "aplicativo",
+    "api"
+  ],
+  "author": "@gC4d",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "pg": "^8.9.0",
+    "pg-hstore": "^2.3.4",
+    "pg-promise": "^11.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
