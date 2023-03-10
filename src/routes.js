@@ -1,6 +1,4 @@
 var express = require('express');
-var pool = require('./database/database');
-var client = require('./database/database');
 var UserController = require('./controllers/user_controller')
 var ProductController = require('./controllers/product_controller')
 
@@ -13,6 +11,7 @@ var prodController = new ProductController();
 // User register
 routes.post('/user/register', (req, res) => {
     const { name, email, password } = req.body
+    console.log(name, email, password)
     try {
         userController.createUser(name, email, password)
         res.status(201).send('SUCCESS')
@@ -33,14 +32,11 @@ routes.post('/user/auth', async (req, res) => {
 })
 // User read all
 routes.get('/user/read/all', async (req, res) => {
-    pool.query('SELECT * FROM usuario',(e, r) => {
-        if (e) {
-            console.log(e)
-            throw e
-        }
-        console.log(r.rows)
-        res.status(200).json(r.rows)
-    })
+    const {id} = req.query;
+    console.log(id)
+    var result = await userController.readAllUsers()
+
+    res.status(200).json(result)
 })
 
 // ***Storage methods*** //
@@ -63,9 +59,8 @@ routes.post('/storage/create', async (req, res) => {
     }
 })
 // Storage read
-routes.get('/storage/read', async (req, res) => {
-    const { name_storage, email_user } = req.body
-    var id_user = await userController.getIdUser(email_user)
+routes.get('/storage/read?name_storage&id_user', async (req, res) => {
+    const { name_storage, id_user } = req
     try {
         pool.query('SELECT * FROM estoque WHERE nome_estoque = $1 AND usuario_id = $2',
             [name_storage, id_user],
