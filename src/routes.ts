@@ -8,5 +8,7 @@ var routes = Router();
 
 routes.post('/user/create', new UserController().create)
 
+routes.get('/user/auth', new UserController().auth)
+
 
 export default routes;
