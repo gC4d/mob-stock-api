@@ -1,28 +1,43 @@
-var client = require('../database/database');
+import { Request, Response } from "express";
+import { stockRepository } from "../repositories/stock_repository";
 
-class Stock {
+export class StockController {
 
-    async createStock(description, user_id, category) {
-        if (category != null && user_id != null && description != null) {
-            var result = await client.query('INSERT INTO estoque (descricao, id_usuario, categoria) VALUES ($1, $2, $3)',
-                [description, user_id, category])
+    async create(req: Request, res: Response) {
+        const { description, category, user_id } = req.body
 
-            console.log(result.rows[0])
-            return (result.rows[0])
+        if (!description) {
+            return res.status(400).json({ message: "Name cannot be null" })
+        } else if (!category) {
+            return res.status(400).json({ message: "Category cannot be null" })
+        } else if (!user_id) {
+            return res.status(400).json({ message: "User's id cannot be null" })
         } else {
-            throw "Value cannot be null";
+            try {
+                const newStock = stockRepository.create({ description: description, category: category, user: user_id })
+                await stockRepository.save(newStock);
+
+                return res.status(201).json(newStock);
+            } catch (error) {
+                console.log(error);
+                return res.status(500).json({ message: "Internal Server Error" })
+            }
+        }
+
+    }
+    async findAllStocks(req: Request, res: Response) {
+        const { user_id } = req.body
+
+        if(!user_id){
+            return res.status(400).json({ message: "User id cannot be null" })
+        } else {
+            try {
+                const stock = await stockRepository.findBy({user: user_id})
+                return res.status(200).json(stock)
+            } catch (error) {
+                console.log(error)
+                return res.status(500).json({ message: "Internal Server Error" })
+            }
         }
     }
-    
-    async readAllStocks(id_user) {
-        var result = await client.query('select * from estoque where id_usuario = $1',
-            [id_user])
-        var stocks = result.rows
-
-        console.log(stocks)
-
-        return stocks;
-    }
 }
-
-module.exports = Stock;

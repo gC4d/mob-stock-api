@@ -10,10 +10,8 @@ export class Stock {
     description: string
     @Column({type: 'integer'})
     category: number
-    @Column({type: 'real'})
+    @Column({type: 'real', nullable: true})
     amount: number
-    @Column({type: 'real'})
-    value: number
 
     @OneToMany(() => Product, product => product.stock)
     products: Product[]

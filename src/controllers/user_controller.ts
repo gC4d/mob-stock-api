@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { userRepository } from "../repositories/userRepository";
+import { userRepository } from "../repositories/user_repository";
 
 export class UserController {
 
@@ -34,7 +34,7 @@ export class UserController {
             return res.status(400).json({ message: "Password cannot be null" })
         } else {
             try {
-                const user = await userRepository.findOne({where: {email, password}})
+                const user = await userRepository.findOneBy({email, password})
                 return res.status(200).json(user)
             } catch (error) {
                 console.log(error)
