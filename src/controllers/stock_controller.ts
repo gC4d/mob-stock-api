@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { stockRepository } from "../repositories/stock_repository";
+import { Equal } from "typeorm";
 
 export class StockController {
 
@@ -8,7 +9,7 @@ export class StockController {
 
         if (!description) {
             return res.status(400).json({ message: "Name cannot be null" })
-        } else if (!category) {
+        } else if (category == null) {
             return res.status(400).json({ message: "Category cannot be null" })
         } else if (!user_id) {
             return res.status(400).json({ message: "User's id cannot be null" })
@@ -32,7 +33,8 @@ export class StockController {
             return res.status(400).json({ message: "User id cannot be null" })
         } else {
             try {
-                const stock = await stockRepository.findBy({user: user_id})
+                const stock = await stockRepository.findBy({user: Equal(user_id)})
+                console.log(stock);
                 return res.status(200).json(stock)
             } catch (error) {
                 console.log(error)
