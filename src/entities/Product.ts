@@ -1,5 +1,6 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Stock } from "./Stock";
+import { StockAudit } from "./StockAudit";
 
 @Entity()
 export class Product {
@@ -14,6 +15,9 @@ export class Product {
 
     @Column({type: 'float'})
     amount: number
+
+    @OneToMany(() => StockAudit, stockAudit => stockAudit.product_id)
+    stockAudit: StockAudit[]
 
     @ManyToOne(() => Stock, stock => stock.products)
     @JoinColumn({name: "stock_id"})
