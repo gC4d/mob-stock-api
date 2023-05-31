@@ -17,11 +17,11 @@ export class Stock {
     @OneToMany(() => Product, product => product.stock)
     products: Product[]
 
-    @OneToMany(() => StockAudit, stockAudit => stockAudit.stock_id)
+    @OneToMany(() => StockAudit, stockAudit => stockAudit.stock)
     stockAudit: StockAudit[]
 
     @ManyToOne(() => Group, group => group.stocks)
-    @JoinColumn({ name: "group_id" })
+    @JoinColumn({ name: "group" })
     group: Group
 
 

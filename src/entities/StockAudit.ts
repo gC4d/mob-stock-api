@@ -15,20 +15,20 @@ export class StockAudit {
     @Column({type: 'integer'})
     amount : number
 
-    @ManyToOne(() => Product, product => product.id)
-    @JoinColumn({name: "product_id"})
-    product_id : number
+    @ManyToOne(() => Product, product => product.stockAudit)
+    @JoinColumn({name: "product"})
+    product : number
 
-    @ManyToOne(() => Stock, stock => stock.id)
-    @JoinColumn({name: "stock_id"})
-    stock_id : number
+    @ManyToOne(() => Stock, stock => stock.stockAudit)
+    @JoinColumn({name: "stock"})
+    stock : number
 
-    @ManyToOne(() => Group, group => group.id)
-    @JoinColumn({name: "group_id"})
-    group_id : number
+    @ManyToOne(() => Group, group => group.stockAudit)
+    @JoinColumn({name: "group"})
+    group : number
     
-    @ManyToOne(() => User, user => user.id)
-    @JoinColumn({name: "user_id"})
-    user_id : number
+    @ManyToOne(() => User, user => user.stockAudit)
+    @JoinColumn({name: "user"})
+    user : number
 
 }

@@ -2,14 +2,13 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColum
 import { Stock } from "./Stock";
 import { User } from "./User";
 import { StockAudit } from "./StockAudit";
+import { UserGroup } from "./UserGroup";
+import { Permissions } from "./Permissions";
 
 @Entity('group')
 export class Group {
     @PrimaryGeneratedColumn()
     id : number
-    @ManyToOne(() => User, user => user.groups)
-    @JoinColumn({name: "adm_id"})
-    adm_id : number
     @Column({type: 'text'})
     token : string
     @Column({type: 'text'})
@@ -22,6 +21,12 @@ export class Group {
     @OneToMany(() => Stock, stock => stock.group)
     stocks: Stock[]
 
-    @OneToMany(() => StockAudit, stockAudit => stockAudit.group_id)
+    @OneToMany(() => StockAudit, stockAudit => stockAudit.group)
     stockAudit: StockAudit[]
+
+    @OneToMany(() => UserGroup, userGroup => userGroup.group)
+    userGroup : UserGroup[]
+
+    @OneToMany(() => Permissions, permissions => permissions.group)
+    userPermissons : Permissions[]
 }

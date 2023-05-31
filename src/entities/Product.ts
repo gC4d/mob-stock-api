@@ -14,12 +14,15 @@ export class Product {
     cust: number
 
     @Column({type: 'float'})
+    value : number
+
+    @Column({type: 'float'})
     amount: number
 
-    @OneToMany(() => StockAudit, stockAudit => stockAudit.product_id)
+    @OneToMany(() => StockAudit, stockAudit => stockAudit.product)
     stockAudit: StockAudit[]
 
     @ManyToOne(() => Stock, stock => stock.products)
-    @JoinColumn({name: "stock_id"})
+    @JoinColumn({name: "stock"})
     stock: Stock
 }
