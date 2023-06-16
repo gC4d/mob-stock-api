@@ -5,17 +5,17 @@ import { Equal } from "typeorm";
 export class StockController {
 
     async create(req: Request, res: Response) {
-        const { description, category, user_id } = req.body
+        const { description, category, group_id } = req.body
 
         if (!description) {
             return res.status(400).json({ message: "Name cannot be null" })
         } else if (category == null) {
             return res.status(400).json({ message: "Category cannot be null" })
-        } else if (!user_id) {
-            return res.status(400).json({ message: "User's id cannot be null" })
+        } else if (!group_id) {
+            return res.status(400).json({ message: "User id cannot be null" })
         } else {
             try {
-                const newStock = stockRepository.create({ description: description, category: category, user: user_id })
+                const newStock = stockRepository.create({ description: description, category: category, group: group_id })
                 await stockRepository.save(newStock);
 
                 return res.status(201).json(newStock);
@@ -27,13 +27,13 @@ export class StockController {
 
     }
     async findAllStocks(req: Request, res: Response) {
-        const { user_id } = req.body
+        const { group_id } = req.body
 
-        if(!user_id){
+        if(!group_id){
             return res.status(400).json({ message: "User id cannot be null" })
         } else {
             try {
-                const stock = await stockRepository.findBy({user: Equal(user_id)})
+                const stock = await stockRepository.findBy({group: Equal(group_id)})
                 console.log(stock);
                 return res.status(200).json(stock)
             } catch (error) {
